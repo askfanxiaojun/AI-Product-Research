@@ -6,6 +6,8 @@
 
 ## 📖 简介 (Introduction)
 
+体验链接：https://ai.studio/apps/drive/1s1Q8iDck_tg9gx23KF6w1v_hch9sxyRa
+
 **AI Product Research** 是一个旨在解放产品经理和投资者双手的自动化调研工具。
 
 在这个项目中，你只需要提供**产品名称**和**官方链接**，系统就会启动一个智能 AI 工作流。它不仅会深度阅读你提供的链接内容，还会自主联网进行全网调研（Competitors, User Reviews, Market Fit），最终生成一份结构化、有深度的产品研究报告。

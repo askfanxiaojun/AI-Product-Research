@@ -1,0 +1,5 @@
+{
+  "name": "🌟AI Product Research",
+  "description": "A comprehensive product research tool that uses Gemini with Google Search Grounding to analyze products from descriptions and specific URLs.",
+  "requestFramePermissions": []
+}

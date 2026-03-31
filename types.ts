@@ -7,6 +7,13 @@ export interface ResearchState {
   error?: string;
 }
 
+export interface ApiConfig {
+  provider: 'gemini' | 'custom';
+  apiKey: string;
+  baseURL: string;
+  model: string;
+}
+
 export interface ResearchInput {
   productName: string;
   urls: string[];

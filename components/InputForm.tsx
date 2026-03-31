@@ -26,9 +26,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
     setUrls(newUrls);
   };
 
-  const addUrlField = () => {
-    setUrls([...urls, '']);
-  };
+  const addUrlField = () => setUrls([...urls, '']);
 
   const removeUrlField = (index: number) => {
     const newUrls = urls.filter((_, i) => i !== index);
@@ -39,12 +37,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
     e.preventDefault();
     const cleanUrls = urls.filter(u => u.trim() !== '');
     if (!productName.trim()) return;
-    
-    onSubmit({
-      productName,
-      urls: cleanUrls,
-      language
-    });
+    onSubmit({ productName, urls: cleanUrls, language });
   };
 
   return (
@@ -53,11 +46,9 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
         <div className="bg-blue-50 p-2 rounded-lg">
           <Search className="w-6 h-6 text-blue-600" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-800">
-          Start Research
-        </h2>
+        <h2 className="text-2xl font-bold text-slate-800">Start Research</h2>
       </div>
-      
+
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* Product Name */}
         <div className="space-y-2">
@@ -119,9 +110,7 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
 
         {/* Language Selection */}
         <div className="space-y-2">
-          <label className="block text-sm font-semibold text-slate-700">
-            Output Language
-          </label>
+          <label className="block text-sm font-semibold text-slate-700">Output Language</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Languages className="h-4 w-4 text-slate-400" />
@@ -132,13 +121,13 @@ export const InputForm: React.FC<InputFormProps> = ({ onSubmit, isLoading }) => 
               className="w-full pl-10 pr-10 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none appearance-none cursor-pointer transition-all duration-200"
             >
               {LANGUAGES.map((lang) => (
-                <option key={lang.code} value={lang.code}>
-                  {lang.label}
-                </option>
+                <option key={lang.code} value={lang.code}>{lang.label}</option>
               ))}
             </select>
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-500">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
           </div>
         </div>

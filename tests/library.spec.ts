@@ -1,0 +1,32 @@
+import {test,expect} from '@playwright/test';
+test('archive search, category and report navigation',async({page})=>{
+  await page.goto('');
+  const rows=page.locator('.report-row');
+  await expect(rows).toHaveCount(2);
+  await page.getByRole('button',{name:'开发工具',exact:true}).click();
+  await expect(rows.locator('visible=true')).toHaveCount(1);
+  await page.getByRole('button',{name:'全部调研'}).click();
+  await page.getByRole('searchbox').fill('nonexistent');
+  await expect(page.getByText('没有找到相关报告')).toBeVisible();
+  await page.getByRole('searchbox').fill('第二次');
+  await expect(rows.locator('visible=true')).toHaveCount(1);
+  await rows.filter({hasText:'第二次'}).click();
+  await expect(page.getByRole('heading',{level:1})).toHaveText('测试产品：第二次');
+  await expect(page.getByRole('navigation',{name:'文章目录'}).getByRole('link',{name:'功能分析'})).toBeVisible();
+  await expect(page.locator('.prose table')).toBeVisible();
+  await page.getByRole('link',{name:'测试产品 · 历次调研'}).click();
+  await expect(page.locator('.report-row')).toHaveCount(2);
+});
+test('mobile layout, skill download, and legacy startup',async({page,request})=>{
+  await page.setViewportSize({width:390,height:844});
+  await page.goto('');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBeLessThanOrEqual(390);
+  await page.getByRole('navigation',{name:'主导航'}).getByRole('link',{name:'安装 Skill'}).click();
+  const response=await request.get('downloads/ai-product-research.zip');
+  expect(response.status()).toBe(200);expect((await response.body()).subarray(0,2).toString()).toBe('PK');
+  await page.goto('legacy/');
+  await expect(page.getByRole('heading',{name:'Master Your Market Intelligence'})).toBeVisible();
+  await page.getByTitle('AI 引擎设置').click();
+  await expect(page.getByPlaceholder('填入你的 API Key')).toBeVisible();
+  await expect(page.getByRole('button',{name:'保存',exact:true})).toBeDisabled();
+});

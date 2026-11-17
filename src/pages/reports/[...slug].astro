@@ -1,0 +1,8 @@
+---
+import {getCollection, render} from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+export async function getStaticPaths(){return (await getCollection('reports')).map(report=>({params:{slug:`${report.data.productSlug}/${report.data.date}`},props:{report}}));}
+const {report}=Astro.props;const {Content,headings}=await render(report);const d=report.data;
+const base=import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title={d.title} description={d.summary}><div class="reading"><article><div class="article-head"><a href={`${base}/products/${d.productSlug}/`}>{d.product} · 历次调研</a><h1>{d.title}</h1><div class="meta"><time datetime={d.date}>{d.date}</time><span>{d.category}</span><a href={d.website}>产品官网</a><a href={`https://github.com/askfanxiaojun/AI-Product-Research/blob/main/content/products/${d.productSlug}/reports/${d.date}.md`}>原始 Markdown</a></div></div><div class="summary">{d.summary}</div><div class="prose"><Content/></div><section class="sources"><h2>研究来源</h2><ul>{d.sources.map(url=><li><a href={url} rel="noreferrer">{url}</a></li>)}</ul><p>研究日期：{d.date}。价格、功能和服务范围可能随产品更新而变化。</p></section></article><nav class="toc" aria-label="文章目录"><strong>本篇目录</strong>{headings.filter(h=>h.depth===2).map(h=><a href={`#${h.slug}`}>{h.text}</a>)}</nav></div></Layout>

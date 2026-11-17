@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import {getCollection} from 'astro:content';
+const reports=(await getCollection('reports')).sort((a,b)=>b.data.date.localeCompare(a.data.date));
+const categories=[...new Set(reports.map(r=>r.data.category))];
+const base=import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout><section class="hero"><div><h1>把产品看透，<br/>把思考留下。</h1><p>记录 AI 产品的能力、边界与商业逻辑。基于公开资料开展研究，让每一次判断都有来源，每一次重访都有迹可循。</p></div><aside class="hero-aside"><strong>在你的 AI 助手里开始研究</strong><p>输入产品名称与官网，生成完整报告，<br/>归档到 GitHub，在这里持续阅读。</p><a class="button" href={`${base}/install/`}>安装产品调研 Skill</a></aside></section>
+<section class="archive"><aside class="filters" aria-label="分类筛选"><h2>研究方向</h2><button class="filter" data-category="" aria-pressed="true">全部调研</button>{categories.map(c=><button class="filter" data-category={c} aria-pressed="false">{c}</button>)}<p class="note">{reports.length} 份报告<br/>{new Set(reports.map(r=>r.data.productSlug)).size} 个产品</p></aside>
+<div><div class="searchbar"><h2>调研档案</h2><label><span class="skip">搜索产品、结论或标签</span><input id="search" type="search" placeholder="搜索产品、结论或标签" aria-label="搜索调研报告"/></label></div>
+{reports.map(r=><a class="report-row" href={`${base}/reports/${r.data.productSlug}/${r.data.date}/`} data-search={[r.data.title,r.data.product,r.data.summary,...r.data.tags].join(' ').toLowerCase()} data-category={r.data.category}><div class="meta"><span>{r.data.category}</span><time datetime={r.data.date}>{r.data.date}</time></div><h3>{r.data.title}</h3><p>{r.data.summary}</p><div class="chips">{r.data.tags.map(t=><span>{t}</span>)}</div></a>)}
+<div id="empty" class="empty" hidden={reports.length>0}><h3>{reports.length ? '没有找到相关报告' : '第一份调研，从你的问题开始'}</h3><p>{reports.length ? '试试其他关键词，或切换研究方向。' : '安装 Skill 后，告诉 AI 助手你想研究的产品。\n报告归档到仓库后，会自动出现在这里。'}</p><a href={`${base}/install/`}>查看安装与归档方法</a></div><p id="results" class="note" aria-live="polite"></p></div></section></Layout>
+<script>
+let category=''; const input=document.querySelector<HTMLInputElement>('#search')!;
+function filter(){let count=0;document.querySelectorAll<HTMLElement>('.report-row').forEach(row=>{const show=(!category||row.dataset.category===category)&&row.dataset.search!.includes(input.value.trim().toLowerCase());row.hidden=!show;if(show)count++;});document.querySelector<HTMLElement>('#empty')!.hidden=count>0;document.querySelector('#results')!.textContent=count ? `共 ${count} 份报告` : '';}
+input.addEventListener('input',filter);document.querySelectorAll<HTMLButtonElement>('.filter').forEach(btn=>btn.addEventListener('click',()=>{category=btn.dataset.category!;document.querySelectorAll('.filter').forEach(b=>b.setAttribute('aria-pressed',String(b===btn)));filter();}));
+</script>

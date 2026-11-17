@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base=import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="安装产品调研 Skill"><article class="install"><h1>让你的 AI 助手，<br/>多一套产品研究方法。</h1><p class="note">本机安装后，在 Codex 或 Claude Code 中输入产品名称与官网，即可开展调研。报告可归档到你自己的 GitHub 仓库。</p><p><a class="button" href={`${base}/downloads/ai-product-research.zip`} download>下载 Skill 安装包</a></p><div class="prose"><h2>下载后直接安装</h2><p>解压安装包，将完整的 <code>ai-product-research</code> 文件夹放到下列目录。保留其中的 <code>SKILL.md</code> 与 <code>references</code>。</p><table><thead><tr><th>客户端</th><th>macOS / Linux</th><th>Windows</th></tr></thead><tbody><tr><td>Codex</td><td><code>~/.agents/skills/</code></td><td><code>%USERPROFILE%\.agents\skills\</code></td></tr><tr><td>Claude Code</td><td><code>~/.claude/skills/</code></td><td><code>%USERPROFILE%\.claude\skills\</code></td></tr></tbody></table><p>Codex 也兼容 <code>~/.codex/skills/</code>。安装后在新的会话中调用；如设置了自定义技能目录，使用实际目录。</p><h2>或者，从仓库安装</h2><p>已安装 Git 和 Python 3 时，可使用安装脚本。遇到已有同名目录时，脚本会停止，请先备份原版本。</p><pre><code>git clone https://github.com/askfanxiaojun/AI-Product-Research.git
+cd AI-Product-Research
+python3 scripts/install-skill.py --client codex
+# Claude Code：
+python3 scripts/install-skill.py --client claude</code></pre><p>Windows 可以将 <code>python3</code> 替换为 <code>py</code>。</p><h2>开始一次调研</h2><pre><code>使用 ai-product-research 调研 Notion，官网 https://www.notion.com。
+重点关注 AI 功能、付费策略和团队协作。
+将报告归档到我的 GitHub 仓库：你的用户名/你的仓库。</code></pre><p>首次归档时，提供自己的仓库和本地路径，并完成 GitHub 授权。后续复用配置；不会把你的报告自动上传到作者仓库。</p><h2>让报告自动出现在网页</h2><p>需要自己的展示网站时，可 Fork 此仓库，在 <code>astro.config.mjs</code> 配置你的 <code>site</code> 和 <code>base</code>，同步修改构建脚本的 legacy base 与页面中的仓库链接。然后在 GitHub 的 Settings → Pages 中，将 Source 设为 GitHub Actions。报告提交到 <code>main</code> 后自动构建发布。</p><h2>使用前准备</h2><p>Skill 提供工作方法与归档规范，需要你的 AI 助手具备联网搜索、网页读取能力；GitHub 归档需要写入权限。本机校验与构建需要 Node.js 22、npm、Python 3。安装包不包含模型服务、API Key 或 GitHub 凭据。</p><p>原来的浏览器调研功能仍可通过顶部的“在线调研工具”使用。</p></div></article></Layout>

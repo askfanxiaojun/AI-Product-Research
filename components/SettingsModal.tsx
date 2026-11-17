@@ -16,7 +16,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ config, onSave, on
   const [baseURL, setBaseURL] = useState(config.baseURL || VOLC_BASE_URL);
   const [model, setModel] = useState(config.model);
 
-  const canSave = provider === 'gemini' || (apiKey.trim() !== '' && model.trim() !== '');
+  const canSave = apiKey.trim() !== '' && (provider === 'gemini' || model.trim() !== '');
 
   const handleSave = () => {
     onSave({ provider, apiKey: apiKey.trim(), baseURL: baseURL.trim() || VOLC_BASE_URL, model: model.trim() });
@@ -80,7 +80,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ config, onSave, on
           </div>
 
           {/* Custom API Fields */}
-          {provider === 'custom' && (
+          {(
             <div className="space-y-4 pt-1">
               <div className="space-y-1.5">
                 <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide">
@@ -125,14 +125,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ config, onSave, on
               </div>
 
               <p className="text-xs text-slate-400">
-                API Key 仅在浏览器本地使用，不会上传至任何服务器。
+                API Key 仅保存在本页内存中，用于请求你选择的 AI 服务，刷新后清除。
               </p>
             </div>
           )}
 
           {provider === 'gemini' && (
             <p className="text-sm text-slate-500 bg-slate-50 rounded-xl px-4 py-3">
-              使用 Google AI Studio 提供的 Gemini 模型，需在环境变量中配置 <code className="text-blue-600 font-mono text-xs">GEMINI_API_KEY</code>。
+              使用 Gemini 需要填写你自己的 API Key。Base URL 与 Model 仅对自定义 API 生效。
             </p>
           )}
         </div>

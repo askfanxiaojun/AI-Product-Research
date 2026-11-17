@@ -43,7 +43,7 @@ const App: React.FC = () => {
       // Step 1: Search
       const searchRes = isCustom
         ? await customSearch(input.productName, input.language, apiConfig)
-        : await geminiSearch(input.productName, input.language);
+        : await geminiSearch(input.productName, input.language, apiConfig.apiKey);
 
       setResearchState(prev => ({
         ...prev,
@@ -57,7 +57,7 @@ const App: React.FC = () => {
       if (input.urls.length > 0) {
         urlResText = isCustom
           ? await customAnalyzeUrls(input.productName, input.urls, input.language, apiConfig)
-          : await geminiAnalyzeUrls(input.productName, input.urls, input.language);
+          : await geminiAnalyzeUrls(input.productName, input.urls, input.language, apiConfig.apiKey);
       } else {
         urlResText = input.language === 'English' ? 'No specific URLs provided.' : '未提供具体URL。';
       }
@@ -71,7 +71,7 @@ const App: React.FC = () => {
       // Step 3: Generate Report
       const report = isCustom
         ? await customReport(input.productName, searchRes.text, urlResText, input.language, apiConfig)
-        : await geminiReport(input.productName, searchRes.text, urlResText, input.language);
+        : await geminiReport(input.productName, searchRes.text, urlResText, input.language, apiConfig.apiKey);
 
       setResearchState(prev => ({
         ...prev,
@@ -117,6 +117,7 @@ const App: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <a href="../" className="text-sm text-slate-500 mr-3">返回调研库</a>
             {/* Settings Button */}
             <button
               onClick={() => setShowSettings(true)}

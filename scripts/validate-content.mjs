@@ -1,0 +1,4 @@
+import fs from 'node:fs';import path from 'node:path';import matter from 'gray-matter';
+const root='content/products';const keys=new Set();let count=0;
+function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())walk(p);else if(e.name.endsWith('.md')){const {data:d,content}=matter(fs.readFileSync(p,'utf8'));const expected=path.join(root,String(d.productSlug),'reports',`${d.date}.md`);if(p!==expected)throw Error(`Report path must match metadata: ${p}`);if(typeof d.date!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(d.date)||new Date(d.date).toISOString().slice(0,10)!==d.date)throw Error(`Invalid date: ${p}`);if(keys.has(expected))throw Error(`Duplicate report: ${p}`);keys.add(expected);if(!content.trim())throw Error(`Empty report: ${p}`);if(/<\s*\/?\s*[a-z][^>]*>/i.test(content))throw Error(`Raw HTML is not allowed: ${p}`);count++;}}}
+walk(root);console.log(`Validated ${count} reports`);

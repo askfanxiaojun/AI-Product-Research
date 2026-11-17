@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.astro/
+public/downloads/*.zip
+playwright-report/
+test-results/
+.ai-product-research.json

@@ -1,23 +1,30 @@
 {
-  "name": "🌟ai-product-research",
+  "name": "ai-product-research",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "astro dev --host 0.0.0.0",
+    "dev:legacy": "vite",
+    "build": "node scripts/clean-content-cache.mjs && node scripts/validate-content.mjs && python3 scripts/package-skill.py && astro build && vite build --base=/AI-Product-Research/legacy/ --outDir=dist/legacy",
+    "preview": "astro preview --host 0.0.0.0",
+    "test": "python3 scripts/test-with-fixtures.py",
+    "test:browser": "playwright test"
   },
   "dependencies": {
-    "react-dom": "^19.2.1",
-    "react": "^19.2.1",
+    "@google/genai": "^1.31.0",
+    "astro": "^5.18.2",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^0.556.0",
-    "react-markdown": "^10.1.0",
-    "@google/genai": "^1.31.0"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-markdown": "^10.1.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
+    "happy-dom": "^21.0.4",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
   }

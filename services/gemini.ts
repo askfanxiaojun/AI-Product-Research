@@ -1,7 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-const apiKey = process.env.API_KEY || '';
-const ai = new GoogleGenAI({ apiKey });
+const client = (apiKey: string) => new GoogleGenAI({ apiKey });
 
 // Helper to sanitize sources from grounding metadata
 const extractSources = (response: any): string[] => {
@@ -11,9 +10,9 @@ const extractSources = (response: any): string[] => {
     .filter((uri: string | undefined) => !!uri) as string[];
 };
 
-export const performGeneralSearch = async (productName: string, language: string) => {
+export const performGeneralSearch = async (productName: string, language: string, apiKey: string) => {
   try {
-    const response = await ai.models.generateContent({
+    const response = await client(apiKey).models.generateContent({
       model: "gemini-3-pro-preview",
       contents: `Perform a comprehensive web search for the product: "${productName}". 
       Identify its core functionality, target audience, key features, and general market reputation. 
@@ -35,14 +34,14 @@ export const performGeneralSearch = async (productName: string, language: string
   }
 };
 
-export const analyzeProvidedUrls = async (productName: string, urls: string[], language: string) => {
+export const analyzeProvidedUrls = async (productName: string, urls: string[], language: string, apiKey: string) => {
   if (urls.length === 0) {
     return "";
   }
 
   try {
     const urlList = urls.join("\n");
-    const response = await ai.models.generateContent({
+    const response = await client(apiKey).models.generateContent({
       model: "gemini-3-pro-preview",
       contents: `I have a list of specific URLs related to the product "${productName}". 
       Please use Google Search to find information contained within or related to these specific pages if possible.
@@ -70,10 +69,11 @@ export const generateFinalReport = async (
   productName: string, 
   searchData: string, 
   urlData: string,
-  language: string
+  language: string,
+  apiKey: string
 ) => {
   try {
-    const response = await ai.models.generateContent({
+    const response = await client(apiKey).models.generateContent({
       model: "gemini-3-pro-preview",
       contents: `You are a Senior Product Researcher. 
       Create a comprehensive Product Research Report for: "${productName}".

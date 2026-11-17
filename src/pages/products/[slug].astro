@@ -1,0 +1,6 @@
+---
+import {getCollection} from 'astro:content';import Layout from '../../layouts/Layout.astro';
+export async function getStaticPaths(){const reports=await getCollection('reports');return [...new Set(reports.map(r=>r.data.productSlug))].map(slug=>({params:{slug},props:{reports:reports.filter(r=>r.data.productSlug===slug).sort((a,b)=>b.data.date.localeCompare(a.data.date))}}));}
+const {reports}=Astro.props;const base=import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title={reports[0].data.product}><h1>{reports[0].data.product}</h1><p class="note">最新研究与历次观察，保留每一次判断的时间背景。</p>{reports.map(r=><a class="report-row" href={`${base}/reports/${r.data.productSlug}/${r.data.date}/`}><div class="meta">{r.data.date}</div><h3>{r.data.title}</h3><p>{r.data.summary}</p></a>)}</Layout>

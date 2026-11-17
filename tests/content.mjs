@@ -2,9 +2,9 @@ import {Window} from 'happy-dom';import fs from 'node:fs';import assert from 'no
 const window=new Window();const html=fs.readFileSync('dist/index.html','utf8');window.document.write(html);
 const script=html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];assert.ok(script,'Homepage search script compiled');window.eval(script);
 const doc=window.document, input=doc.querySelector('#search');
-assert.equal(doc.querySelectorAll('.report-row').length,2);
-doc.querySelector('[data-category="开发工具"]').click();assert.equal([...doc.querySelectorAll('.report-row')].filter(e=>!e.hidden).length,1);
-doc.querySelector('.filter[data-category=""]').click();input.value='第二次';input.dispatchEvent(new window.Event('input'));assert.equal([...doc.querySelectorAll('.report-row')].filter(e=>!e.hidden).length,1);
+assert.equal(doc.querySelectorAll('.report-row[href*="test-fixture-only"]').length,2);
+doc.querySelector('[data-category="开发工具"]').click();assert.equal([...doc.querySelectorAll('.report-row[href*="test-fixture-only"]')].filter(e=>!e.hidden).length,1);
+doc.querySelector('.filter[data-category=""]').click();input.value='第二次';input.dispatchEvent(new window.Event('input'));assert.equal([...doc.querySelectorAll('.report-row[href*="test-fixture-only"]')].filter(e=>!e.hidden).length,1);
 input.value='doesnotexist';input.dispatchEvent(new window.Event('input'));assert.equal(doc.querySelector('#empty').hidden,false);
 const report=fs.readFileSync('dist/reports/test-fixture-only/2026-11-17/index.html','utf8');assert.match(report,/<table>/);assert.match(report,/href="#功能分析"/);assert.match(report,/测试产品 · 历次调研/);
 const product=fs.readFileSync('dist/products/test-fixture-only/index.html','utf8');assert.match(product,/第一次/);assert.match(product,/第二次/);

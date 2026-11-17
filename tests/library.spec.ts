@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 test('archive search, category and report navigation',async({page})=>{
   await page.goto('');
-  const rows=page.locator('.report-row');
+  const rows=page.locator('.report-row[href*="test-fixture-only"]');
   await expect(rows).toHaveCount(2);
   await page.getByRole('button',{name:'开发工具',exact:true}).click();
   await expect(rows.locator('visible=true')).toHaveCount(1);

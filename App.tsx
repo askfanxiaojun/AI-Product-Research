@@ -6,7 +6,7 @@ import { SettingsModal } from './components/SettingsModal';
 import { ResearchInput, ResearchState, ApiConfig } from './types';
 import { performGeneralSearch as geminiSearch, analyzeProvidedUrls as geminiAnalyzeUrls, generateFinalReport as geminiReport } from './services/gemini';
 import { performGeneralSearch as customSearch, analyzeProvidedUrls as customAnalyzeUrls, generateFinalReport as customReport } from './services/customApi';
-import { Sparkles, AlertCircle, RefreshCw, Settings } from 'lucide-react';
+import { AlertCircle, RefreshCw, Settings } from 'lucide-react';
 
 const DEFAULT_API_CONFIG: ApiConfig = {
   provider: 'gemini',
@@ -108,9 +108,7 @@ const App: React.FC = () => {
       <header className="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
           <div className="flex items-center gap-3 cursor-pointer" onClick={handleReset}>
-            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-              <Sparkles className="w-5 h-5" />
-            </div>
+            <img src="../brand/research-icon-192.png" width="36" height="36" className="w-9 h-9 rounded-xl shrink-0" alt="AI 产品调研库" />
             <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-700 to-indigo-700 tracking-tight">
               AI Product Research
             </h1>
